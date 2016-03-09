@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>PSPreferExternalManifest by dotps1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">PSPreferExternalManifest</h1>
+      <h2 class="project-tagline">PowerShell module to help with scaling issues on the Surfce Pro and Suface Book.</h2>
+      <a href="https://github.com/dotps1/PSPreferExternalManifest" class="btn">View on GitHub</a>
+      <a href="https://github.com/dotps1/PSPreferExternalManifest/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/dotps1/PSPreferExternalManifest/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="pspreferexternalmanifest" class="anchor" href="#pspreferexternalmanifest" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PSPreferExternalManifest</h1>
+
+<p>This is module I am working on to help with the BS Scalling issues when using my Surface Pro 4.</p>
+
+<p>Basically there is a registry key that if set, you can then put application manifest files with the .exe's to tell it to not be DPI aware.  This is to just help with that.</p>
+
+<h3>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h3>
+
+<p>This will verify the registry key exists, if not create it, test for the manifest file, in not found, creates it.
+Only adds the dpiAware value.</p>
+
+<div class="highlight highlight-source-powershell"><pre>PS C:\<span class="pl-k">&gt;</span> <span class="pl-c1">Set-ApplicationManifestNotDpiAware</span> <span class="pl-k">-</span>Path <span class="pl-s">'C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe'</span>
+
+
+    Directory: C:\Program Files <span class="pl-k">(</span>x86<span class="pl-k">)</span>\KeePass Password Safe <span class="pl-c1"><span class="pl-c1">2</span></span>
+
+
+Mode                LastWriteTime         Length Name
+<span class="pl-k">----</span>                <span class="pl-k">-------------</span>         <span class="pl-k">------</span> <span class="pl-k">----</span>
+<span class="pl-k">-</span>a<span class="pl-k">----</span>         <span class="pl-c1"><span class="pl-c1">3</span></span><span class="pl-k">/</span><span class="pl-c1"><span class="pl-c1">9</span></span><span class="pl-k">/</span><span class="pl-c1"><span class="pl-c1">2016</span></span>   <span class="pl-c1"><span class="pl-c1">9</span></span>:<span class="pl-c1"><span class="pl-c1">30</span></span> AM           <span class="pl-c1"><span class="pl-c1">1294</span></span> <span class="pl-c1">KeePass.exe</span>.manifest
+WARNING: The manifest was created successfuly <span class="pl-k">for</span> C:\Program Files <span class="pl-k">(</span>x86<span class="pl-k">)</span>\KeePass Password Safe <span class="pl-c1"><span class="pl-c1">2</span></span>\<span class="pl-c1">KeePass.exe</span>.  The
+application will need be restarted <span class="pl-k">for</span> the changes to take effect.
+
+PS C:\<span class="pl-k">&gt;</span></pre></div>
+
+<p>This will change the value in the manifest that already exists for this application from 'True\PM' to 'False' and then restart the application.</p>
+
+<div class="highlight highlight-source-powershell"><pre>PS C:\<span class="pl-k">&gt;</span> <span class="pl-c1">Set-ApplicationManifestNotDpiAware</span> <span class="pl-k">-</span>Path <span class="pl-k">$</span><span class="pl-c1">env:</span><span class="pl-smi">ProgramFiles</span>\Office\Office16\<span class="pl-c1">lync.exe</span> <span class="pl-k">-</span>ForceRestartApplication</pre></div>
+
+<h3>
+<a id="todos" class="anchor" href="#todos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>todo's</h3>
+
+<ul>
+<li><del>if the manifest file already exists, append, or change the dpiAware value.</del></li>
+<li>add Set-ApplicationManifestDpiAware to revert change.</li>
+<li><del>add Remove-PreferExternalManifestRegistryKey.</del></li>
+<li>if the manifest file already exists, but the node path assembly.application.windowsSettings.dpiAware doesnt exist, add it.</li>
+</ul>
+
+<h3>
+<a id="notes" class="anchor" href="#notes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>notes</h3>
+
+<ul>
+<li>Admin privliges requied to use this module.</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/dotps1/PSPreferExternalManifest">PSPreferExternalManifest</a> is maintained by <a href="https://github.com/dotps1">dotps1</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
