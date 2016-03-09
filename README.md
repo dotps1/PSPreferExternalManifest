@@ -27,7 +27,8 @@ PS C:\>
 
 This will change the value in the manifest that already exists for this application from 'True\PM' to 'false' and then restart the application.
 ```PowerShell
-PS C:\> Set-ApplicationManifestNotDpiAware -Path $env:ProgramFiles\Office\Office16\lync.exe -ForceRestartApplication
+PS C:\> Set-ApplicationManifestNotDpiAware -Path 'C:\Program Files\Microsoft Office\Office16\lync.exe' -ForceRestart
+Application
 
 
 PreferExternalManifest : True
