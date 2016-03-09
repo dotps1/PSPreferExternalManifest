@@ -22,7 +22,7 @@
       <h1>
 <a id="pspreferexternalmanifest" class="anchor" href="#pspreferexternalmanifest" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PSPreferExternalManifest</h1>
 
-<p>This is module I am working on to help with the BS Scaling issues when using my Surface Pro 4.</p>
+<p>This is a module I am working on to help with the BS Scaling issues when using my Surface Pro 4.</p>
 
 <p>Basically there is a registry key that if set, you can then put application manifest files with the .exe's to tell it to not be DPI aware.  This is to just help with that.</p>
 
@@ -31,7 +31,7 @@
 <h3>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h3>
 
-<p>This will verify the registry key exists, if not create it, test for the manifest file, in not found, creates it.
+<p>This will verify the registry key exists, if not create it, test for the manifest file, if not found, creates it.
 And only adds the dpiAware value.  If the application is running you will get a warning to restart it.</p>
 
 <div class="highlight highlight-source-powershell"><pre>PS C:\<span class="pl-k">&gt;</span> <span class="pl-c1">Set-ApplicationManifestNotDpiAware</span> <span class="pl-k">-</span>Path <span class="pl-s">'C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe'</span>
