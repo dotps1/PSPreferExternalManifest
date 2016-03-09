@@ -37,7 +37,7 @@ DPIAware               : false
 ``` 
 
 ###todo's###
-* ~~ff the manifest file already exists, append, or change the dpiAware value.~~
+* ~~If the manifest file already exists, append, or change the dpiAware value.~~
 * Add Set-ApplicationManifestDpiAware to revert change.
 * ~~Add Remove-PreferExternalManifestRegistryKey.~~
 * If the manifest file already exists, but the node path assembly.application.windowsSettings.dpiAware doesn't exist, add it.
