@@ -26,6 +26,8 @@
 
 <p>Basically there is a registry key that if set, you can then put application manifest files with the .exe's to tell it to not be DPI aware.  This is to just help with that.</p>
 
+<p><img src="http://dotps1.github.io/PSPreferExternalManifest/Images/mstsc.gif" alt="alt tag"></p>
+
 <h3>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h3>
 
@@ -48,7 +50,8 @@ PS C:\<span class="pl-k">&gt;</span></pre></div>
 
 <p>This will change the value in the manifest that already exists for this application from 'True\PM' to 'false' and then restart the application.</p>
 
-<div class="highlight highlight-source-powershell"><pre>PS C:\<span class="pl-k">&gt;</span> <span class="pl-c1">Set-ApplicationManifestNotDpiAware</span> <span class="pl-k">-</span>Path <span class="pl-k">$</span><span class="pl-c1">env:</span><span class="pl-smi">ProgramFiles</span>\Office\Office16\<span class="pl-c1">lync.exe</span> <span class="pl-k">-</span>ForceRestartApplication
+<div class="highlight highlight-source-powershell"><pre>PS C:\<span class="pl-k">&gt;</span> <span class="pl-c1">Set-ApplicationManifestNotDpiAware</span> <span class="pl-k">-</span>Path <span class="pl-s">'C:\Program Files\Microsoft Office\Office16\lync.exe'</span> <span class="pl-k">-</span>ForceRestart
+Application
 
 
 PreferExternalManifest : True
