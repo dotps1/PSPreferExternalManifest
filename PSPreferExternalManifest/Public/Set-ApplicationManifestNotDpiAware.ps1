@@ -1,7 +1,7 @@
 ﻿Function Set-ApplicationManifestNotDpiAware {
     
     [CmdletBinding()]
-    [OutputType([System.IO.FileInfo])]
+    [OutputType([PSCustomObject])]
 
     Param (
         [Parameter(
@@ -17,7 +17,7 @@
     )
 
     Begin {
-        if (-not (Test-PreferExternalManifiestRegistryKeyExists)) {
+        if (-not ($preferExternalManifest = Test-PreferExternalManifiestRegistryKeyExists)) {
             try {
                 Add-PreferExternalManifestRegistryKey
             } catch {
@@ -28,41 +28,49 @@
     
     Process {
         for ($i = 0; $i -lt $Path.Length; $i++) {
+            $manifestCreatedOrModified = $false
+
             if (-not (Test-ApplicationManifestExists -Path $Path[$i])) {
                 New-ApplicationManifest -Path $Path[$i]
+
+                $manifestCreatedOrModified = $true
             } else {
-                [Xml]$manifest = Get-Content -Path "$($Path[$i]).manifest"
-                if ($manifest.assembly.application.windowsSettings.dpiAware -and $manifest.assembly.application.windowsSettings.dpiAware -ne ($false -as [String])) {
-                    try {
-                        $manifest.assembly.application.windowsSettings.dpiAware = 'False'
-                        $manifest.Save("$($Path[$i]).manifest")
-                    } catch {
-                        Write-Error -Message $_.ToString()
-                    }
-                } elseif ($manifest.assembly.application.windowsSettings.dpiAware.'#text' -and $manifest.assembly.application.windowsSettings.dpiAware.'#text' -ne ($false -as [String])) {
-                    try {
-                        $manifest.assembly.application.windowsSettings.dpiAware.'#text' = 'False'
-                        $manifest.Save("$($Path[$i]).manifest")
-                    } catch {
-                        Write-Error -Message $_.ToString()                  
-                    }
-                } else {
-                    # TODO: add full dpiAware node to manifest.
-                }
-            }
-
-            if ($ForceApplicationRestart.IsPresent) {
                 try {
-                    Get-Process | Where-Object {
-                        $_.Path -eq $Path[$i]
-                    } | Stop-Process -Force -Confirm:$false -ErrorAction Stop
+                    [Xml]$manifest = Get-Content -Path "$($Path[$i]).manifest"
+                    if ($manifest.SelectSingleNode("//*[local-name() = 'dpiAware']").'#text' -ne $null -and $manifest.SelectSingleNode("//*[local-name() = 'dpiAware']").'#text' -ne $false) {
+                        $manifest.SelectSingleNode("//*[local-name() = 'dpiAware']").'#text' = ($false -as [String])
+                        $manifest.Save("$($Path[$i]).manifest")
 
-                    Start-Process -FilePath $Path[$i]
+                        $manifestCreatedOrModified = $true
+                    } else {
+                        # TODO: create entire node if missing.
+                    }
                 } catch {
                     Write-Error -Message $_.ToString()
                 }
-            } else {
-                Write-Warning -Message "The manifest was created successfuly for $($Path[$i]).  The application will need be restarted for the changes to take effect."
+            }
+
+            New-Object -TypeName PSCustomObject -Property ([Ordered]@{
+                PreferExternalManifest = $preferExternalManifest
+                ManifestFilePath = "$($Path[$i]).manifest"
+                ApplicationFilePath = $Path[$i]
+                DPIAware = ([Xml](Get-Content -Path "$($Path[$i]).manifest")).SelectSingleNode("//*[local-name() = 'dpiAware']").'#text'
+            }) | Format-List
+
+            if ($manifestCreatedOrModified) {
+                if ($ForceApplicationRestart.IsPresent) {
+                    try {
+                        Get-Process | Where-Object {
+                            $_.Path -eq $Path[$i]
+                        } | Stop-Process -Force -Confirm:$false -ErrorAction Stop
+
+                        Start-Process -FilePath $Path[$i]
+                    } catch {
+                        Write-Error -Message $_.ToString()
+                    }
+                } elseif (Get-Process -Name (Split-Path -Path $Path[$i] -Leaf).TrimEnd('.exe') -ErrorAction SilentlyContinue) {
+                    Write-Warning -Message "The manifest was created or modified successfuly for $($Path[$i]).  The application will need be restarted for the changes to take effect."
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿Function New-ApplicationManifest {
+
     [CmdletBinding()]
-    [OutputType([Bool])]
+    [OutputType([Void])]
 
     Param (
         [Parameter(
@@ -18,10 +19,7 @@
 
     End {
         try {
-            #New-Item -Path (Split-Path -Path $Path -Parent) -Name "$(Split-Path -Path $Path -Leaf).manifest" -ItemType File -Value $manifest -Force
             $manifest.Save("${Path}.manifest")
-
-            Get-Item -Path "${Path}.manifest"
         } catch {
             throw $_
         }
