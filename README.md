@@ -4,6 +4,9 @@ This is module I am working on to help with the BS Scaling issues when using my 
 
 Basically there is a registry key that if set, you can then put application manifest files with the .exe's to tell it to not be DPI aware.  This is to just help with that.
 
+
+![alt tag](http://dotps1.github.io/PSPreferExternalManifest/Images/mstsc.gif)
+    
 ###Examples###
 
 This will verify the registry key exists, if not create it, test for the manifest file, in not found, creates it.
