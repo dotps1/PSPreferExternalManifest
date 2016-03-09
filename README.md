@@ -6,25 +6,35 @@ Basically there is a registry key that if set, you can then put application mani
 
 ###Examples###
 
+This will verify the registry key exists, if not create it, test for the manifest file, in not found, creates it.
+Only adds the dpiAware value.
 ```PowerShell
-#requires -Modules PSPreferExternalManifest
+PS C:\> Set-ApplicationManifestNotDpiAware -Path 'C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe'
 
-Set-ApplicationManifestNotDpiAware -Path C:\Windows\System32\mstsc.exe
 
-    Directory: C:\Windows\System32
+    Directory: C:\Program Files (x86)\KeePass Password Safe 2
 
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
--a----         3/8/2016  11:44 AM           1294 mstsc.exe.manifest
-```
-This will verify the registry key exists, if not create it, test for the manifest file, in not found, creates it.
+-a----         3/9/2016   9:30 AM           1294 KeePass.exe.manifest
+WARNING: The manifest was created successfuly for C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe.  The
+application will need be restarted for the changes to take effect.
 
+PS C:\>
+```
+
+
+This will change the value in the manifest that already exists for this application from 'True\PM' to 'False' and then restart the application.
+```PowerShell
+PS C:\> Set-ApplicationManifestNotDpiAware -Path $env:ProgramFiles\Office\Office16\lync.exe -ForceRestartApplication
+``` 
 
 ###todo's###
-* if the manifest file already exists, append, or change the dpi value.
-* add Set-ApplicationManifestDpiAware to revert change
-* add Remove-PreferExternalManifestRegistryKey
+* ~~if the manifest file already exists, append, or change the dpiAware value.~~
+* add Set-ApplicationManifestDpiAware to revert change.
+* ~~add Remove-PreferExternalManifestRegistryKey.~~
+* if the manifest file already exists, but the node path assembly.application.windowsSettings.dpiAware doesnt exist, add it.
 
 
 ###notes###
