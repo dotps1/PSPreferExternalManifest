@@ -8,6 +8,13 @@
             Mandatory = $true,
             ValueFromPipeline = $true
         )]
+        [ValidateScript({
+            if (([System.IO.FileInfo]$_).Extension -eq '.exe') {
+                $true
+            } else {
+                throw "Path must end with a .exe file extension."
+            }
+        })]
         [String[]]
         $Path,
 
@@ -44,18 +51,21 @@
                         $manifestCreatedOrModified = $true
                     } else {
                         # TODO: create entire node if missing.
+
+                        #$manifestCreatedOrModified = $true
                     }
                 } catch {
                     Write-Error -Message $_.ToString()
                 }
             }
 
-            New-Object -TypeName PSCustomObject -Property ([Ordered]@{
+            New-Object -TypeName PSObject -Property ([Ordered]@{
                 PreferExternalManifest = $preferExternalManifest
                 ManifestFilePath = "$($Path[$i]).manifest"
                 ApplicationFilePath = $Path[$i]
                 DPIAware = ([Xml](Get-Content -Path "$($Path[$i]).manifest")).SelectSingleNode("//*[local-name() = 'dpiAware']").'#text'
-            }) | Format-List
+                ManifestCreatedOrModified = $manifestCreatedOrModified
+            })
 
             if ($manifestCreatedOrModified) {
                 if ($ForceApplicationRestart.IsPresent) {
