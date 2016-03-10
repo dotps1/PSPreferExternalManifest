@@ -18,6 +18,17 @@
         [String[]]
         $Path,
 
+        [Parameter(
+            Mandatory = $true
+        )]
+        [ValidateSet(
+            'True',
+            'False',
+            'True\PM'
+        )]
+        [String]
+        $DpiAware,
+
         [Parameter()]
         [Switch]
         $ForceApplicationRestart
@@ -38,14 +49,14 @@
             $manifestCreatedOrModified = $false
 
             if (-not (Test-ApplicationManifestExists -Path $Path[$i])) {
-                New-ApplicationManifest -Path $Path[$i] -DpiAware $true
+                New-ApplicationManifest -Path $Path[$i] -DpiAware $DpiAware
 
                 $manifestCreatedOrModified = $true
             } else {
                 try {
                     [Xml]$manifest = Get-Content -Path "$($Path[$i]).manifest"
-                    if ($manifest.SelectSingleNode("//*[local-name() = 'dpiAware']").'#text' -ne $null -and $manifest.SelectSingleNode("//*[local-name() = 'dpiAware']").'#text' -ne $true) {
-                        $manifest.SelectSingleNode("//*[local-name() = 'dpiAware']").'#text' = ($true -as [String])
+                    if ($manifest.SelectSingleNode("//*[local-name() = 'dpiAware']").'#text' -ne $null -and $manifest.SelectSingleNode("//*[local-name() = 'dpiAware']").'#text' -ne $DpiAware) {
+                        $manifest.SelectSingleNode("//*[local-name() = 'dpiAware']").'#text' = $DpiAware
                         $manifest.Save("$($Path[$i]).manifest")
 
                         $manifestCreatedOrModified = $true

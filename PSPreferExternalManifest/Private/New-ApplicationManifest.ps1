@@ -13,7 +13,12 @@
         [Parameter(
             Mandatory = $true
         )]
-        [Bool]
+        [ValidateSet(
+            'True',
+            'False',
+            'True\PM'
+        )]
+        [String]
         $DpiAware
     )
 
