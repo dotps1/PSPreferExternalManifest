@@ -51,8 +51,8 @@ PS C:\<span class="pl-k">&gt;</span></pre></div>
 
 <p>This will change the value in the manifest that already exists for this application from 'True\PM' to 'false' and then restart the application.</p>
 
-<div class="highlight highlight-source-powershell"><pre>PS C:\<span class="pl-k">&gt;</span> <span class="pl-c1">Set-ApplicationManifestDpiAware</span> <span class="pl-k">-</span>Path <span class="pl-s">'C:\Program Files\Microsoft Office\Office16\lync.exe'</span> <span class="pl-k">-</span>ForceRestartApplicat
-ion <span class="pl-k">-</span>DpiAware False
+<div class="highlight highlight-source-powershell"><pre>PS C:\<span class="pl-k">&gt;</span> <span class="pl-c1">Set-ApplicationManifestDpiAware</span> <span class="pl-k">-</span>Path <span class="pl-s">'C:\Program Files\Microsoft Office\Office16\lync.exe'</span> <span class="pl-k">-</span>DpiAware <span class="pl-k">-</span>ForceAppl
+icationRestart
 
 
 PreferExternalManifest    : True
