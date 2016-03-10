@@ -74,7 +74,7 @@
                 PreferExternalManifest = $preferExternalManifest
                 ManifestFilePath = "$($Path[$i]).manifest"
                 ApplicationFilePath = $Path[$i]
-                DPIAware = ([Xml](Get-Content -Path "$($Path[$i]).manifest")).SelectSingleNode("//*[local-name() = 'dpiAware']").'#text'
+                DpiAware = ([Xml](Get-Content -Path "$($Path[$i]).manifest")).SelectSingleNode("//*[local-name() = 'dpiAware']").'#text'
                 ManifestCreatedOrModified = $manifestCreatedOrModified
             })
 
