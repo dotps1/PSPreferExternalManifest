@@ -8,12 +8,20 @@
             Mandatory = $true
         )]
         [String]
-        $Path
+        $Path,
+
+        [Parameter(
+            Mandatory = $true
+        )]
+        [Bool]
+        $DpiAware
     )
 
     Begin {
         [Xml]$manifest = (Get-Content -Path "$PSScriptRoot\..\bin\_.manifest").Replace(
             '<--!ProcessorArchitecture!-->', $env:PROCESSOR_ARCHITECTURE
+        ).Replace(
+            '<--!DpiAware!-->', $DpiAware
         )
     }
 

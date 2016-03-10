@@ -38,7 +38,7 @@
             $manifestCreatedOrModified = $false
 
             if (-not (Test-ApplicationManifestExists -Path $Path[$i])) {
-                New-ApplicationManifest -Path $Path[$i]
+                New-ApplicationManifest -Path $Path[$i] -DpiAware $false
 
                 $manifestCreatedOrModified = $true
             } else {
